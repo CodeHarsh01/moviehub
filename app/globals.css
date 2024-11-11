@@ -2,7 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-ul {
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-}
-  
