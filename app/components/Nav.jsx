@@ -50,17 +50,17 @@ export default function Nav() {
             <CiMenuFries />
           </div>
         </div>
-        
+
         {/* Mobile Menu */}
         <ul
-          className={`${
-            navmenu ? 'flex' : 'hidden'
-          } flex-col items-center gap-8 cursor-pointer m-4 md:flex-row md:flex`}
+          className={`${navmenu ? 'flex opacity-100 transform translate-x-0' : 'hidden opacity-0 transform translate-x-[-100%]'
+            } flex-col items-center gap-8 cursor-pointer m-4 md:flex-row md:flex transition-all duration-500 ease-in-out`}
         >
           <Link href={`/`}>Home</Link>
           <Link href={`/components/Toprated`}>Top Rated</Link>
           <Link href={`/components/Geners`}>Genres</Link>
         </ul>
+
 
         <div className="flex p-4 gap-5 h-full items-center md:p-0">
           <div className="flex h-full items-center">
