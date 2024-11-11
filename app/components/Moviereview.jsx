@@ -26,7 +26,7 @@ const MovieReviewSection = () => {
         const newReview = {
           movieId: parseInt(id, 10), 
           text: userReview, 
-          user:user ? user.email.split("@")[0]: "unknown",  
+          user:user.email.split("@")[0],
           timestamp: date,
           userId: user.uid
         };
@@ -113,7 +113,7 @@ const MovieReviewSection = () => {
           reviewdata.map((review,i ) => (
             <div key={i} className="mb-4 p-3 bg-gray-800 rounded-md">
               <div className="flex flex-col sm:flex-row justify-between">
-              <h1 className="capitalize px-2 py-2">
+              <h1 className="capitalize px-2 py-2 flex flex-col items-center sm:block">
                 {review.user}
                 <span className="px-2">{review.timestamp}</span>
               </h1>
