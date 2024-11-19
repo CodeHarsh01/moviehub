@@ -14,29 +14,35 @@ export default function page() {
 
     useEffect(() => {
         async function fetchmovie() {
-            const res = await fetch(
-                `https://api.themoviedb.org/3/genre/movie/list?api_key=${api}&language=en-US`
-            );
-            const data = await res.json();
-            setmovies(data.genres);
+            try {
+                const res = await fetch(
+                    `https://api.themoviedb.org/3/genre/movie/list?api_key=${api}&language=en-US`
+                );
+                const data = await res.json();
+                setmovies(data.genres);
+            }
+            catch (error) {
+                console.error(error);
+            }
         }
         fetchmovie()
+
     }, [])
 
     return (
-   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 min-h-screen justify-center items-center w-full">
-    {movies && movies.length > 0 ? 
-        movies.map((movie) => (
-            <Link key={movie.id} className=" grid h-full w-full justify-center" href={`/components/${movie.id}`}>
-                <div className="w-[200px] bg-gray-800 h-[100px] text-xl m-5 rounded-md text-white flex justify-center items-center" >
-                    <h1>{movie.name}</h1>
-                </div>
-            </Link> 
-        ))
-    : 
-        <p>No Genres</p>   
-    }
-</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 min-h-screen justify-center items-center w-full">
+            {movies && movies.length > 0 ?
+                movies.map((movie) => (
+                    <Link key={movie.id} className=" grid h-full w-full justify-center" href={`/components/${movie.id}`}>
+                        <div className="w-[200px] bg-gray-800 h-[100px] text-xl m-5 rounded-md text-white flex justify-center items-center" >
+                            <h1>{movie.name}</h1>
+                        </div>
+                    </Link>
+                ))
+                :
+                <p>No Genres</p>
+            }
+        </div>
 
     )
 }

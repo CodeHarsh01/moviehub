@@ -1,7 +1,7 @@
 "use client";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import Link from "next/link";
-import { IoIosSearch } from "react-icons/io";
+import { IoIosSearch, IoMdArrowDropdown } from "react-icons/io";
 import { auth } from "../firebaseconfig/firebase";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ import { CiMenuFries } from "react-icons/ci";
 export default function Nav() {
   const [username, setusername] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isdropdown, setisdropdown] = useState(false)
   const [input, setinput] = useState("");
   const [user, setuser] = useState(null);
   const [navmenu, setnavmenu] = useState(false);
@@ -28,9 +29,19 @@ export default function Nav() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const toggleDropMenu = () => {
+    setisdropdown(!isdropdown);
+  };
 
   const handleLogout = () => {
     signOut(auth);
+    setIsMenuOpen(false)
+
+  };
+  const handleReview = () => {
+    user && router.push("/my-reviews")
+    setIsMenuOpen(false)
+
   };
 
   const handleSearch = (e) => {
@@ -39,6 +50,7 @@ export default function Nav() {
 
   const handleinput = () => {
     router.push(`/Search/${input}`);
+    
   };
 
   return (
@@ -53,14 +65,25 @@ export default function Nav() {
 
         {/* Mobile Menu */}
         <ul
-        className={`${
-          navmenu ? 'flex opacity-100 translate-x-0' : 'hidden opacity-0 translate-x-[-100%]'
-        } flex-col items-center gap-8 cursor-pointer m-4 md:flex-row md:flex transition-all duration-500 ease-in-out`}
-      >
-        <Link href={`/`}>Home</Link>
-        <Link href={`/components/Toprated`}>Top Rated</Link>
-        <Link href={`/components/Geners`}>Genres</Link>
-      </ul>
+          className={`${navmenu ? 'flex' : 'hidden'
+            } flex-col items-center gap-8 cursor-pointer m-4 md:flex-row md:flex transition-all duration-500 ease-in-out`}
+        >
+          <Link href={`/`}>Home</Link>
+          <Link href={`/components/Toprated`}>Top Rated</Link>
+          <div className="relative">
+          <button className="flex items-center" onClick={toggleDropMenu}>
+            More
+            <IoMdArrowDropdown/>
+          </button>
+          {isdropdown ? <div className="absolute mt-2 bg-white shadow-md z-40 rounded-md">
+          <div className="flex flex-col m-2">
+          <Link href={`/components/Geners`} onClick={()=>isdropdown(false)} className="rounded-md p-2 hover:bg-gray-200">Genres</Link>
+          <Link href={`/components/upcoming-movies`} onClick={()=>isdropdown(false)} className="rounded-md p-2 hover:bg-gray-200">Upcoming</Link>
+          </div>
+          </div> : ""}
+          </div>
+          
+        </ul>
 
 
         <div className="flex p-4 gap-5 h-full items-center md:p-0">
@@ -83,16 +106,17 @@ export default function Nav() {
               </div>
 
               {isMenuOpen && (
-                <div className="z-50 absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
+                <div  className="z-50 absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
                   <button
                     className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
                     onClick={handleLogout}
+                    
                   >
                     Logout
                   </button>
                   <button
                     className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
-                    onClick={() => user && router.push("/my-reviews")}
+                    onClick={handleReview}
                   >
                     My Reviews
                   </button>
