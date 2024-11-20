@@ -35,7 +35,7 @@ export default function Trailor({ movieid ,setclose}) {
     console.log();
     
     return (
-        <div className="bg-white h-[500px] w-[800px] p-5 rounded-2xl flex flex-col">
+        <div className="bg-white h-[500px] w-[800px] m-2 p-2 sm:p-5 rounded-2xl flex flex-col">
             <div className=" h-[10%] justify-end flex ">
                 <RxCross2 className="text-xl cursor-pointer" onClick={closeTrailor}/>
             </div>
