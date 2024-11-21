@@ -10,25 +10,31 @@ export default function Page() {
     const api = '0d9b39d5607f8e82ff137062e6a6cf5d';
 
     useEffect(() => {
-        async function fetchMovies() {
-            const res = await fetch(
-                 `https://api.themoviedb.org/3/search/movie?api_key=${api}&query=${id}`
-            );
 
-            const data = await res.json();
-            setMovies(data.results);
+        async function fetchMovies() {
+            try {
+                const res = await fetch(
+                    `https://api.themoviedb.org/3/search/movie?api_key=${api}&query=${id}`
+                );
+
+                const data = await res.json();
+                setMovies(data.results);
+            }
+            catch (e) {
+                console.error(e);
+            }
         }
 
         fetchMovies();
     }, []);
 
-    if(!movies.length){
-      return <Loading/>
+    if (!movies.length) {
+        return <div className="flex justify-center p-4 text-2xl"><p>Search Not Found!</p></div> 
     }
 
     return (
         <div>
-           
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center p-5 w-full">
                 {movies && movies.length > 0 ? (
                     movies.map((movie) => (

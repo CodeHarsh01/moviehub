@@ -108,9 +108,9 @@ export default function MovieDetailPage() {
                 <h1 className="text-xl font-semibold text-white text-opacity-70">Overview</h1>
                 <p className="w-[100%]">{movie.overview}</p>
                 <h1 className="text-xl font-semibold text-opacity-70 text-white">Production Company</h1>
-                <ul className="grid grid-cols-3 gap-2">
+                <ul className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {movie.production_companies.map((v, i) => (
-                    <li key={i} className="font-medium list-disc capitalize">{v.name}</li>
+                    <li key={i} className="font-medium sm:list-disc capitalize w-[80%] text-center">{v.name}</li>
                   ))}
                 </ul>
               </div>
@@ -121,12 +121,12 @@ export default function MovieDetailPage() {
           <div className="cursor-pointer max-h-[500px]">
             <h1 className=" font-semibold text-xl">Reviews</h1>
             <div className="max-w-12 bg-black h-1 mt-1"> </div>
-            <div className="mt-5">
+            <div className="mt-5  min-h-[500px]">
               {user ? <MovieReviewSection /> : (<p className=" capitalize">please login for view or review <a href={"/Auth/Login"} className="uppercase font-semibold underline">Login</a></p>)}
             </div>
           </div>
           
-          <div className="max-h-[500px] shadow-xl flex flex-col gap-2 px-6 py-8 min-w-[230px] lg:min-w-[300px]">
+          <div className="max-h-[500px] my-[70px] md:my-[50px] shadow-xl flex flex-col gap-2 px-6 py-8 min-w-[230px] lg:min-w-[300px]">
             <h1 className="text-xl ">status</h1>
             <li className="text-black text-opacity-70 list-disc">{movie.status}</li>
             <h1 className="text-xl ">Release Date</h1>
