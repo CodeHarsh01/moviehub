@@ -58,7 +58,7 @@ export default function MovieDetailPage() {
             className=" w-full min-h-[1300px] md:min-h-[700px] lg:min-h-[800px] object-cover"
           />
 
-          <div className="min-h-[1300px] md:min-h-[700px] lg:min-h-[800px] bg-black bg-opacity-80 absolute top-0 left-0 right-0"></div>
+          <div className="min-h-[1300px] md:min-h-[700px] lg:min-h-full bg-black bg-opacity-80 absolute top-0 left-0 right-0"></div>
           <div className="absolute top-0 left-0 right-0 flex flex-col md:flex-row text-white h-full p-10 items-center gap-10">
             <div className="h-[400px] min-w-[200px] sm:h-[500px] sm:min-w-[350px] ">
               <div className="relative group h-full w-full ">
