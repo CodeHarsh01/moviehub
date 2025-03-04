@@ -48,21 +48,27 @@ export default function page() {
     return unsubscribe;
   }, []);
 
-  const handleDelete = async (reviewid) => {
-    try {
-      await databases.deleteDocument(databaseid, collectionid, reviewid);
-      toast.success("Deleted successfully");
-      if (user) {
-        fetchReviews(user.uid)
-      }
-      else {
-        setMyReview([]);
-      }
-    } catch (error) {
-      toast.error("Error deleting review");
-      console.error(error)
+  const handleDelete = async(reviewid,reviewuserId)=>{
+    if (!user) {
+      toast.error("You need to be logged in to delete a review.");
+      return;
     }
-  };
+
+    if (user.uid !== reviewuserId) {
+      toast.error("You can only delete your own reviews.");
+      return;
+    }
+    try{
+       await databases.deleteDocument(databaseid,collectionid,reviewid)
+       toast.success("Deleted successfully")
+       fetchReview()
+    }
+    catch(error){
+      toast.error("error")
+      console.log(error);
+      
+    }
+  }
   if (myreview === null) {
     return <Loading />
   }
@@ -101,7 +107,7 @@ export default function page() {
                   <div className="text-white">Date : {review.timestamp} </div>
                   <span className="text-white p-2 m-2 bg-gray-800 rounded-2xl w-[240px] flex justify-between items-center" >
                     <div>review : {review.text} </div>
-                    <button onClick={() => handleDelete(review.$id)} className="bg-red-600 p-2 rounded-md">Delete</button>
+                    <button onClick={() => handleDelete(review.$id,review.userId)} className="bg-red-600 p-2 rounded-md">Delete</button>
                   </span>
                   </>
                 )}
