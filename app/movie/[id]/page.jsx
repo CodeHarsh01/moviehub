@@ -4,6 +4,7 @@ import Loading from '@/app/components/Loading';
 import MovieReviewSection from '@/app/components/Moviereview';
 import Trailor from '@/app/components/movie-trailer/Trailor';
 import MovieCast from '@/app/components/movieCast/MovieCast';
+import Watchmovie from '@/app/components/watchmovie/Watchmovie';
 import { auth } from '@/app/firebaseconfig/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useParams } from 'next/navigation';
@@ -15,6 +16,7 @@ export default function MovieDetailPage() {
   const [movie, setMovie] = useState(null);
   const [watchtrailor, setwatchtrailor] = useState(false);
   const [user, setuser] = useState(null)
+  const [WatchNowbtn, setWatchNowbtn] = useState(false)
   const api = '0d9b39d5607f8e82ff137062e6a6cf5d';
 
 
@@ -35,7 +37,7 @@ export default function MovieDetailPage() {
 
   }, [id]);
 
-  const handleClick = (e) =>{
+  const handleClick = (e) => {
     setwatchtrailor(e)
   }
 
@@ -43,13 +45,14 @@ export default function MovieDetailPage() {
     return <Loading />
   }
 
+
   return (
     <>
       <div className="min-h-screen ">
         <div className="min-h-full relative ">
           {watchtrailor ?
             <div className=" absolute bg-black bg-opacity-50 flex z-50 h-full w-full justify-center items-center">
-              <Trailor movieid={id} setclose = {handleClick}/>
+              <Trailor movieid={id} setclose={handleClick} />
             </div> :
             ""}
           <img
@@ -99,7 +102,7 @@ export default function MovieDetailPage() {
                 <span className="text-lg font-medium">User<br />Score</span>
                 <div className="pl-2 flex items-center gap-1">
                   <FaPlay />
-                  <button onClick={()=>setwatchtrailor(!watchtrailor)}>Play Trailor</button>
+                  <button onClick={() => setwatchtrailor(!watchtrailor)}>Play Trailor</button>
                 </div>
               </div>
 
@@ -117,15 +120,26 @@ export default function MovieDetailPage() {
             </div>
           </div>
         </div>
-        <div className="p-6 flex  justify-between flex-col md:flex-row  lg:flex-row min-h-[90%] gap-5">
-          <div className="cursor-pointer max-h-[500px]">
-            <h1 className=" font-semibold text-xl">Reviews</h1>
-            <div className="max-w-12 bg-black h-1 mt-1"> </div>
-            <div className="mt-5  min-h-[500px]">
-              {user ? <MovieReviewSection /> : (<p className=" capitalize">please login for view or review <a href={"/Auth/Login"} className="uppercase font-semibold underline">Login</a></p>)}
+        <div className="p-6 flex  justify-between flex-col md:flex-row lg:flex-row min-h-[90%] gap-5">
+          <div className="cursor-pointer min-h-[500px]">
+            <div className="flex gap-8 items-center">
+              <div onClick={() => setWatchNowbtn(!WatchNowbtn)}>
+                <h1 className=" font-semibold text-xl">Reviews</h1>
+                <div className="max-w-20 bg-black h-[1.5px] mt-1"> </div>
+              </div>
+              <div onClick={() => setWatchNowbtn(!WatchNowbtn)}>
+                <h1 className=" font-semibold text-lg">Watch Now</h1>
+                <div className="max-w-20 bg-black h-[1.5px] mt-[1.5px]"> </div>
+              </div>
             </div>
+            {WatchNowbtn ? null : <div className="mt-5  min-h-[500px]">
+              {user ? <MovieReviewSection movieid={id} /> : (<p className=" capitalize">please login for view or review <a href={"/Auth/Login"} className="uppercase font-semibold underline">Login</a></p>)}
+            </div>}
+            {WatchNowbtn && <div className="mt-5  min-h-[500px]">
+              {user ? <Watchmovie movieId={id} /> : (<p className=" capitalize">please login for view or review <a href={"/Auth/Login"} className="uppercase font-semibold underline">Login</a></p>)}
+            </div>}
           </div>
-          
+
           <div className="max-h-[500px] my-[70px] md:my-[50px] shadow-xl flex flex-col gap-2 px-6 py-8 min-w-[230px] lg:min-w-[300px]">
             <h1 className="text-xl ">status</h1>
             <li className="text-black text-opacity-70 list-disc">{movie.status}</li>
@@ -141,9 +155,8 @@ export default function MovieDetailPage() {
             <ul className="text-black text-opacity-70 list-disc px-5">{movie.genres.map((v, i) => (<li key={i}>{v.name}</li>))}</ul>
           </div>
         </div>
-        <div><MovieCast movieid={id}/></div>
+        <div><MovieCast movieid={id} /></div>
       </div>
-
     </>
   )
 }

@@ -39,6 +39,8 @@ const MovieReviewSection = () => {
         );
         setUserReview(''); 
         toast.success("submitted successfully")
+        console.log("Review submitted successfully:", newReview);
+        
         fetchReview()
       } catch (error) {
         toast.error("error")
@@ -57,7 +59,6 @@ const MovieReviewSection = () => {
     }
     catch(error){
       console.error(error);
-      
     }
   }
   useEffect(() => {
@@ -73,7 +74,7 @@ const MovieReviewSection = () => {
   }, []);
 
   const handleDelete = async(reviewid)=>{
-    try{
+    try{  
        await databases.deleteDocument(databaseid,collectionid,reviewid)
        toast.success("Deleted successfully")
        fetchReview()
@@ -82,10 +83,11 @@ const MovieReviewSection = () => {
       toast.error("error")
       console.log(error);
       
-    }
-    
+    }  
     
   }
+
+  
   return (
     <div className="w-[80%] h-full sm:w-[550px] md:w-[500px] lg:w-[700px] xl:w-[900px] mx-auto p-4 bg-gray-900 rounded-lg shadow-lg text-white">
   <h2 className="text-2xl font-semibold mb-4">Leave a Review</h2>
@@ -118,7 +120,7 @@ const MovieReviewSection = () => {
               {review.user}
               <span className="px-2">{review.timestamp}</span>
             </h1>
-            {user ? (
+            {user.uid === review.userId ? (
               <button
                 onClick={() => handleDelete(review.$id)}
                 className="bg-red-600 p-2 rounded-md"

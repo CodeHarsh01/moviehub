@@ -14,43 +14,37 @@ export default function page() {
   const handleSignup = async (e) => {
     e.preventDefault()
     const email = e.target.elements[0].value
-    if (email !== "") {
-      try {
-        const res = await createUserWithEmailAndPassword(auth, email, password)
-        if (res.user !== null) {
-          router.push("/")
-       
-        }
-
-      } catch (error) {
-        console.error(error);
-        toast.error("invalid Credential!")
+    const password = e.target.elements[1].value
+    try{
+      const res = await createUserWithEmailAndPassword(auth, email, password)
+      if (res.user !== null) {
+        toast.success("Account created successfully!")
+        router.push("/")
       }
     }
+    catch (error) {
+      console.error(error);
+      toast.error("invalid Credential or email already in use!")
+    }
     
-     
     
-
   }
   const handleLogin = async (e) => {
     e.preventDefault()
     const email = e.target.elements[0].value
+    const password = e.target.elements[1].value
     if (email !== "") {
       try {
         const res = await signInWithEmailAndPassword(auth, email, password)
         if (res.user !== null) {
-          
+          toast.success("Login successfully!")
           router.push("/")
         }
-
       } catch (error) {
         console.error(error);
-        toast.error("invalid Credential!")
+        toast.error("invalid Credential or email already in use!")
       }
     }
-
-
-
   }
 
   return (
